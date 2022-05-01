@@ -1,0 +1,77 @@
+.head {
+    display: flex;
+    flex-direction: column;
+    flex-wrap:wrap;
+}
+.firstline {
+    background-color: white;
+    top: 0;
+    left: 0;
+    height: 5%;
+    width: 100%;
+    color: white;
+}
+.secondline {
+    background-color: #454242;
+    color: white;
+    font-size: 3.5em;
+    top: 0;
+    left: 0;
+    height: 5%;
+    width: 100%;
+}
+.secondline .logo {
+    padding-left: 20%;
+}
+.secondline input {
+    margin-left: 15px;
+    border-radius: 30px;
+    width: 30%;
+    height: 30px;
+    border: none;
+    padding-left: 15px;
+    position: relative;
+    bottom: 12px;
+}
+.secondline input:focus {
+    outline: none !important;
+    border: 2px solid #5d8ef0;
+}
+.userIcon {
+    font-size: 40px;
+    color: white;
+    margin-left: 135px;
+    cursor: pointer;
+}
+.search {
+    font-size: 20px;
+    color: #454242;
+    position: relative;
+    z-index: 1;
+    right: 40px;
+    bottom: 10px;
+}
+.user {
+    padding-left: 20px;
+    font-size: 40px;
+}
+.thirdline {
+    display: flex;
+    background-color: #787575;
+    color: white;
+    font-size: 1.1em;
+    /*padding: 20px 20px 20px 20px;*/
+    justify-content: space-around;
+}
+.thirdline span {
+    padding: 20px 20px 20px 20px;
+}
+.box {
+    background-color: red;
+    clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+}
+.exit {
+    padding-left: 20px;
+    font-size: 40px;
+    cursor: pointer;
+}

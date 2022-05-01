@@ -1,0 +1,25 @@
+<div class="container">
+    <p class="logo" routerLink="">SOSA</p>
+    <form class="form" [formGroup]="userForm">
+        <div class="form-menu">
+            <button class="form-menu-btn" [ngClass]="{'checked': isLog===false}" (click)="swapMenuOnSignUp()">Регистрация</button>
+            <button class="form-menu-btn" [ngClass]="{'checked': isLog}" (click)="swapMenuOnLogIn()">Вход</button>
+        </div>
+        <div class="form-row" formGroupName="user">
+            <p>login</p>
+            <input class="form-control" formControlName="login"
+                [ngClass]="{'invalid-input': userForm.get('user')?.get('login')?.invalid && userForm.get('user')?.get('login')?.touched}">
+            <div *ngIf="userForm.get('user')?.get('login')?.invalid && userForm.get('user')?.get('login')?.touched" class="invalid">
+                Некорректный логин
+            </div>
+            <p>password</p>
+            <input class="form-control" formControlName="password"
+                [ngClass]="{'invalid-input': userForm.get('user')?.get('password')?.invalid && userForm.get('user')?.get('password')?.touched}">
+            <div *ngIf="userForm.get('user')?.get('password')?.invalid && userForm.get('user')?.get('password')?.touched" class="invalid">
+                Некорректный пароль
+            </div>
+        </div>
+        <button class="btn" *ngIf="isLog" type="submit" (click)="submit()" [disabled]="userForm.invalid">войти</button>
+        <button class="btn" *ngIf="isLog===false" type="submit" (click)="signup()" [disabled]="userForm.invalid">Зарегистрироваться</button>
+    </form>
+</div>

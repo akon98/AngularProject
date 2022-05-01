@@ -1,0 +1,41 @@
+<div class="head">
+    <div class="firstline">1</div>
+    <div class="secondline">
+        <span class="logo">SOSA</span>
+        <input type="search">
+        <fa-icon class="search" [icon]="search"></fa-icon>
+        <fa-icon class="userIcon" [icon]="faUser" routerLink="form"></fa-icon>
+        <span class="user">{{user.login}}</span>
+        <fa-icon *ngIf="isUserLoged()" class="exit" [icon]="exit" (click)="leave()"></fa-icon>
+    </div>
+    <div class="thirdline">
+        <span class="box">Новинки</span>
+        <span>Одежда</span>
+        <span>Обувь</span>
+        <span>Для спорта</span>
+        <span>Аксессуары</span>
+        <span>Модно в этом сезоне</span>
+        <span>Topshop</span>
+        <span>Лицо и тело</span>
+        <span>Бренды</span>
+        <span class="box">Outlet</span>
+        <span>Marketplace</span>
+    </div>
+</div>
+<table>
+    <thead>
+        <th>1</th>
+        <th>2</th>
+        <th>3</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of users">
+            <td>{{user.id}}</td>
+            <td>{{user.login}}</td>
+            <td>{{user.password}}</td>
+        </tr>
+    </tbody>
+</table>
+<button (click)="boom()">get full database</button>
+
+
