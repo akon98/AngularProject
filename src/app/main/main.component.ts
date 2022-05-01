@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef} from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, Observable, Subscription, throwError } from 'rxjs';
 import { UserState } from './store/proj.reducer';
 import { selectUser } from './store/proj.selectors';
 import { User } from './user';
@@ -15,12 +15,13 @@ import * as userActions from "./store/proj.actions"
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainComponent {
+    private subscriptions: Subscription[] = [];
     public user$: Observable<User> = this.store$.pipe(select(selectUser));
     users: User[] = [{ id: 1, login: "sad", password: "asd" }];
     public user: User = { id: 1, login: "sad", password: "asd" };
     constructor(private ref: ChangeDetectorRef, private store$: Store<UserState>, private http: HttpClient, private elementRef: ElementRef) {}
     ngOnInit(): void {
-        this.user$.subscribe((data) => {
+        const sub = this.user$.subscribe((data) => {
             /*for (const value of data) {
               this.users.push(new User(value.id, value.login, value.password));
             }*/
@@ -28,10 +29,11 @@ export class MainComponent {
             this.users.push(new User(data.login, data.password, data.id));
             this.user = new User(data.login, data.password, data.id);
           });
-          
+          this.subscriptions.push(sub);
         }
     boom(): void {
-      this.http.get("/api/users").subscribe((data) => console.log(data));
+      const sub1 = this.http.get("/api/users").subscribe((data) => console.log(data));
+      this.subscriptions.push(sub1);
     }
     ngAfterViewInit(): void {
       this.elementRef.nativeElement.ownerDocument
@@ -47,5 +49,8 @@ export class MainComponent {
     }
     leave(): void {
       this.store$.dispatch(userActions.loginExit());
+    }
+    ngOnDestroy() {
+      this.subscriptions.forEach((subscription) => subscription.unsubscribe());
     }
  }
