@@ -32,8 +32,7 @@ export class MainComponent {
           this.subscriptions.push(sub);
         }
     boom(): void {
-      const sub1 = this.http.get("/api/users").subscribe((data) => console.log(data));
-      this.subscriptions.push(sub1);
+      this.http.get("/api/users").subscribe((data) => console.log(data));
     }
     ngAfterViewInit(): void {
       this.elementRef.nativeElement.ownerDocument
