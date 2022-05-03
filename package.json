@@ -6,7 +6,9 @@
     "start": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "db-start": "C:/mongodb/bin/mongod --dbpath D:/db",
+    "server-start": "node ./src/app/main/server/index.js"
   },
   "private": true,
   "dependencies": {
