@@ -4,5 +4,17 @@
       "secure": false,
       "logLevel": "debug",
       "changeOrigin": true
+    },
+    "/static/*": {
+      "target": "http://localhost:3000",
+      "secure": false,
+      "logLevel": "debug",
+      "changeOrigin": true
+    },
+    "/uploadfile/*": {
+      "target": "http://localhost:3000",
+      "secure": false,
+      "logLevel": "debug",
+      "changeOrigin": true
     }
   }

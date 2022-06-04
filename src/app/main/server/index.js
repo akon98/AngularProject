@@ -8,15 +8,17 @@ const jsonParser = express.json();
 const mongoClient = new MongoClient("mongodb://localhost:27017/");
  
 let dbClient;
- 
+
 app.use(express.static(__dirname + "/public"));
  
 mongoClient.connect(function(err, client){
     if(err) return console.log(err);
     dbClient = client;
     app.locals.collection = client.db("usersdb").collection("users");
+    app.locals.collection_prod = client.db("usersdb").collection("product");
     ////////
     const collection = app.locals.collection;
+    const collection_prod = app.locals.collection_prod;
     collection.findOne({login: "sad"}, function(err, user){
                
         if(err) return console.log(err);
@@ -25,13 +27,28 @@ mongoClient.connect(function(err, client){
         //    console.log(user);
         //}
     });
-
+    /*
+    products = [
+        {name: "РЮКЗАК ADIDAS 4 ATHLTS", price: 6999, url: "/static/product/2.png"},
+        {name: "КРОССОВКИ FALCON", price: 5699, url: "/static/product/3.png"},
+        {name: "ШОРТЫ ДЛЯ ФИТНЕСА PACER 3-STRIPES WOVEN TWO-IN-ONE", price: 4999, url: "/static/product/4.png"},
+        {name: "КРОССОВКИ ДЛЯ БЕГА QT RACER", price: 4999, url: "/static/product/5.png"},
+        {name: "ТОЛСТОВКА ESSENTIALS 3-STRIPES", price: 6699, url: "/static/product/6.png"},
+    ]
+    collection_prod.insertMany(products);*/
+    let users = [
+        {login: "root", password: "root", isAdmin: true}
+    ]
+    collection.findOne({login: "root"}, function(err, user){
+        if (user) return;
+        collection.insertMany(users);
+        console.log("root created");
+    })
     ////////
     app.listen(3000, function(){
         console.log("Сервер ожидает подключения...");
     });
 });
- 
 app.get("/api/users", function(req, res){
         
     const collection = req.app.locals.collection;
@@ -124,3 +141,83 @@ app.post("/api/users/signup", jsonParser, function(req, res){
 
     });
 });
+app.get("/api/product", function(req, res){
+    const collection_prod = req.app.locals.collection_prod;
+    collection_prod.find({}).limit(6).toArray(function(err, product){
+         
+        if(err) return console.log(err);
+        res.send(product)
+    });
+     
+});
+app.post("/api/product/create", jsonParser, function(req, res){
+    console.log(101);
+    console.log(req.body, "product create");
+    if (!req.body) return res.sendStatus(400);
+    console.log(req.body.product.name);
+    const productName = req.body.product.name;
+    const productPrice = req.body.product.price;
+    const productUrl = req.body.product.url;
+    const collection_prod = req.app.locals.collection_prod;
+    collection_prod.findOne({name: productName}, function(err, product){
+        //if(err) return res.sendStatus(400);
+        console.log(product, "103");
+        if (product) {
+            res.sendStatus(400);
+        } else { 
+            let newproduct = {name: productName, price: productPrice, url: productUrl};
+            console.log(newproduct, "102");
+            collection_prod.insertOne(newproduct, function(err, result){
+                if(err) return console.log("error \n", err);
+                res.send(newproduct);
+            });
+        }
+
+    });
+});
+path = require('path')
+app.use('/static', express.static(path.join(__dirname, 'public')))
+
+cors = require('cors'),
+multer = require('multer'),
+bodyParser = require('body-parser');
+const PATH = 'D:/ProjectsTS/TrustProj/src/app/main/server/public/product';
+let storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, PATH);
+    },
+    filename: (req, file, cb) => {
+      cb(null, file.fieldname + '-' + Date.now() + ".png")
+    }
+  });
+  let upload = multer({
+    storage: storage
+  });
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
+app.post('/api/product/upload', upload.single('image'), function (req, res) {
+    if (!req.file) {
+      console.log("No file is available!");
+      return res.send(
+        "success: false"
+      );
+    } else {
+      console.log('File is available!');
+      return res.send(
+        "success: true"
+      )
+    }
+  });
+  app.get("/api/product/getfulldb", function(req, res){
+    const collection_prod = req.app.locals.collection_prod;
+    collection_prod.find({}).toArray(function(err, product){
+         
+        if(err) return console.log(err);
+        res.send(product)
+    });
+     
+});
+

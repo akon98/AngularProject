@@ -16,12 +16,17 @@ import { reducers } from './main/store';
 import { UserEffects } from './main/store/proj.effects';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ConfComponent } from './main/conf/conf.component';
+import { ProductEffects } from './main/store/effects/product.effects';
+import { FileUploader, FileUploadModule } from 'ng2-file-upload';
+import { ConfGuard } from './main/conf.guard';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
-    FormComponent
+    FormComponent,
+    ConfComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,11 +36,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     routing,
     StoreModule.forRoot(reducers, {}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    EffectsModule.forRoot([UserEffects]),
+    EffectsModule.forRoot([UserEffects, ProductEffects]),
     StoreRouterConnectingModule.forRoot(),
     FontAwesomeModule,
+    FileUploadModule
   ],
-  providers: [],
+  providers: [ConfGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

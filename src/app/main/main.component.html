@@ -7,6 +7,7 @@
         <fa-icon class="userIcon" [icon]="faUser" routerLink="form"></fa-icon>
         <span class="user">{{user.login}}</span>
         <fa-icon *ngIf="isUserLoged()" class="exit" [icon]="exit" (click)="leave()"></fa-icon>
+        <fa-icon *ngIf="user.isAdmin" class="userIcon" [icon]="conf" routerLink="conf"></fa-icon>
     </div>
     <div class="thirdline">
         <span class="box">Новинки</span>
@@ -27,15 +28,23 @@
         <th>1</th>
         <th>2</th>
         <th>3</th>
+        <th>4</th>
     </thead>
     <tbody>
         <tr *ngFor="let user of users">
             <td>{{user.id}}</td>
             <td>{{user.login}}</td>
             <td>{{user.password}}</td>
+            <td>{{user.isAdmin}}</td>
         </tr>
     </tbody>
 </table>
 <button (click)="boom()">get full database</button>
-
-
+<button (click)="getFullProductDB()">get full database</button>
+<table>
+    <tbody>
+        <tr class="qwerty">
+            <td ngDefaultControl [(ngModel)]="products" *ngFor="let image of imgdata; let i = index"><img [src]="image"><td>{{products[i].name}}</td>{{products[i].price}}</td>
+        </tr>
+    </tbody>
+</table>

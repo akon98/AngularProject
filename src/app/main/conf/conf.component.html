@@ -1,0 +1,37 @@
+<div class="container">
+    <p class="logo" routerLink="">SOSA</p>
+    <form class="form" [formGroup]="productForm">
+        <div class="form-row" formGroupName="product">
+            <p>name</p>
+            <input class="form-control" formControlName="name">
+            <p>price</p>
+            <input class="form-control" formControlName="price">
+            <p>url</p>
+            <input class="form-control" formControlName="url">
+        </div>
+        <!--<button class="btn" type="submit" (click)="submit()" 
+            [disabled]="productForm.invalid || !uploader.getNotUploadedItems().length"
+        >Create</button>-->
+        <div class="wrapper">
+          <div class="container">
+            <input
+              type="file"
+              name="image"
+              ng2FileSelect
+              [uploader]="uploader"
+              accept="image/x-png,image/gif,image/jpeg"
+              (change)="onFileSelected($event)"
+              class="choice"
+            />
+            <button
+              class="btn"
+              type="button"
+              (click)="uploader.uploadAll()"
+              [disabled]="!uploader.getNotUploadedItems().length || productForm.invalid"
+            >
+              Upload
+            </button>
+          </div>
+        </div>
+    </form>
+</div>

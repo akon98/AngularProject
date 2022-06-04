@@ -1,4 +1,6 @@
 import { RouterModule, Routes } from "@angular/router";
+import { ConfGuard } from "./main/conf.guard";
+import { ConfComponent } from "./main/conf/conf.component";
 import { FormComponent } from "./main/form/form.component";
 import { MainComponent } from "./main/main.component";
 
@@ -11,7 +13,8 @@ const appRoutes: Routes =[
 */
 const routes: Routes = [
     { path: '', component: MainComponent},
-    { path: 'form', component: FormComponent}
+    { path: 'form', component: FormComponent},
+    { path: 'conf', component: ConfComponent, canActivate: [ConfGuard]}
     //{ path: '**', component: NotFoundComponent }
   ];
 

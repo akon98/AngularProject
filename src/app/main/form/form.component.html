@@ -13,7 +13,7 @@
                 Некорректный логин
             </div>
             <p>password</p>
-            <input class="form-control" formControlName="password"
+            <input type="password" class="form-control" formControlName="password"
                 [ngClass]="{'invalid-input': userForm.get('user')?.get('password')?.invalid && userForm.get('user')?.get('password')?.touched}">
             <div *ngIf="userForm.get('user')?.get('password')?.invalid && userForm.get('user')?.get('password')?.touched" class="invalid">
                 Некорректный пароль
