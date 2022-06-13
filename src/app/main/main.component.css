@@ -88,3 +88,26 @@ td {
     flex-wrap: wrap;
     justify-content: space-around;
 }
+.product {
+    border: 1px solid black;
+    margin: 10px 0 10px 0;
+}
+.buy {
+    margin-left: 40%;
+    border: none;
+    min-height: 30px;
+    background-color: #454242;
+    color: white;
+    padding: 5px 30px 5px 30px;
+    min-width: 250px;
+    cursor: pointer;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+.buy:hover {
+    opacity: 0.7;
+}
+.count {
+    font-size: 0.7em;
+    margin-left: 10px;
+    color: goldenrod;
+}

@@ -1,0 +1,24 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    align-items: center;
+}
+.logo {
+    font-size: 40px;
+    cursor: pointer;
+    align-items: center;
+}
+.form {
+    display: flex;
+    background-color: white;
+    font-size: 20px;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 150px;
+    padding-right: 150px;
+    text-align: left;
+}
+.trashcan {
+    cursor: pointer;
+}

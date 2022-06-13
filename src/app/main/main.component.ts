@@ -5,13 +5,16 @@ import { catchError, Observable, Subscription, throwError, forkJoin } from 'rxjs
 import { UserState } from './store/proj.reducer';
 import { selectProduct, selectUser } from './store/proj.selectors';
 import { User } from './user';
-import { faUser, faMagnifyingGlass, faArrowRightFromBracket, faGear } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faMagnifyingGlass, faArrowRightFromBracket, faGear, faBasketShopping } from '@fortawesome/free-solid-svg-icons';
 import * as userActions from "./store/proj.actions"
 import { ImageService } from './sevices/image.service';
 import { ProductState } from './store/reducers/product.reducer';
 import { Product } from './product';
 import * as productActions from "./store/actions/product.actions"
 import { FileUploader } from 'ng2-file-upload';
+import { BasketState } from './store/reducers/basket.reducer';
+import * as basketActions from "./store/actions/basket.actions"
+import { SystemService } from './sevices/system.service';
 
 
 @Component({
@@ -31,10 +34,15 @@ export class MainComponent {
     public product$: Observable<Product[]> = this.storeProduct$.pipe(select(selectProduct));
     users: User[] = [{ id: 1, login: "sad", password: "asd" }];
     products: Product[] = [];
+    battonValue: string[] = [];
+    inBasket: number = 0;
     public user: User = { id: 1, login: "sad", password: "asd" };
     constructor(private ref: ChangeDetectorRef, private store$: Store<UserState>, private http: HttpClient, private elementRef: ElementRef, 
-      private imageService: ImageService, private storeProduct$: Store<ProductState>) {}
+      private imageService: ImageService, private storeProduct$: Store<ProductState>, private storeBasket$: Store<BasketState>,
+      private systemService: SystemService) {}
     ngOnInit(): void {
+        this.battonValue = this.systemService.getBattonValue();
+        this.inBasket = this.systemService.getCountBasket();
         const sub = this.user$.subscribe((data) => {
             /*for (const value of data) {
               this.users.push(new User(value.id, value.login, value.password));
@@ -56,7 +64,6 @@ export class MainComponent {
               console.log(this.products)
               console.log(this.products.length)
               for (let image of this.products) {
-                console.log(image)
                 this.imageService.getImage(image.url).subscribe((src) => {
                   // Get the blob
                   const reader = new FileReader();
@@ -65,7 +72,9 @@ export class MainComponent {
                   // result includes identifier 'data:image/png;base64,' plus the base64 data
                      let temp = reader.result;
                      if (typeof temp === "string")
-                     this.imgdata.push(temp); 
+                     this.imgdata.push(temp);
+                     //this.battonValue.push("Купить");
+                     this.systemService.saveBattonValues("Купить");
                      this.ref.detectChanges();
                  }
                })
@@ -85,12 +94,16 @@ export class MainComponent {
     search = faMagnifyingGlass;
     exit = faArrowRightFromBracket;
     conf = faGear;
+    basket = faBasketShopping;
     isUserLoged(): boolean {
       if (this.user.login === "") return false;
       return true;
     }
     leave(): void {
       this.store$.dispatch(userActions.loginExit());
+      this.storeBasket$.dispatch(basketActions.clear());
+      this.systemService.clearBasketCount();
+      this.inBasket = 0;
     }
     ngOnDestroy() {
       this.subscriptions.forEach((subscription) => subscription.unsubscribe());
@@ -101,5 +114,18 @@ export class MainComponent {
     getFullProductDB(): void {
       this.http.get("/api/product/getfulldb").subscribe((data) => console.log(data));
     }
-
+    addToBasket(prod: Product, i: number): void {
+      console.log(prod, "add to basket");
+      this.storeBasket$.dispatch(basketActions.add({name: prod.name, price: prod.price, url: prod.url}));
+      //this.battonValue[i] = "В корзине";
+      this.systemService.changeBattonValue(i);
+      this.systemService.countBasket();
+      this.inBasket = this.systemService.getCountBasket();
+      this.ref.detectChanges();
+    }
+    clearBasketStats() {
+      this.storeBasket$.dispatch(basketActions.clear());
+      this.systemService.clearBasketCount();
+      this.inBasket = 0;
+    }
 }

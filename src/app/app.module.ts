@@ -20,6 +20,7 @@ import { ConfComponent } from './main/conf/conf.component';
 import { ProductEffects } from './main/store/effects/product.effects';
 import { FileUploader, FileUploadModule } from 'ng2-file-upload';
 import { ConfGuard } from './main/conf.guard';
+import { BasketComponent } from './main/basket/basket.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ConfGuard } from './main/conf.guard';
     MainComponent,
     FormComponent,
     ConfComponent,
+    BasketComponent
   ],
   imports: [
     BrowserModule,

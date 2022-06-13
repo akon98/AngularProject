@@ -1,0 +1,21 @@
+<div class="container">
+    <p class="logo" routerLink="">SOSA</p>
+    <table class="form">
+        <thead>
+            <th>Название</th>
+            <th>Цена</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of basket; let i = index">
+                <td *ngIf="basket.length == 1 || item.price!=0">{{item.name}}</td>
+                <td *ngIf="basket.length == 1 || item.price!=0">{{item.price}}</td>
+                <td *ngIf="item.price!=0"><fa-icon class="trashcan" [icon]="trashcan" (click)="deleteItem(i)"></fa-icon></td>
+            </tr>
+        </tbody>
+        <div *ngIf="summ > 0">
+            <h2>Итог:</h2>
+            <div ngDefaultControl [(ngModel)]="basket">Количество товаров: {{basket.length}}</div>
+            <div ngDefaultControl [(ngModel)]="summ">Цена: {{summ}} руб.</div>
+        </div>
+    </table>
+</div>

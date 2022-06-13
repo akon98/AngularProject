@@ -4,10 +4,12 @@
         <span class="logo">SOSA</span>
         <input type="search">
         <fa-icon class="search" [icon]="search"></fa-icon>
-        <fa-icon class="userIcon" [icon]="faUser" routerLink="form"></fa-icon>
+        <fa-icon class="userIcon" [icon]="faUser" routerLink="form" (click)="clearBasketStats()"></fa-icon>
         <span class="user">{{user.login}}</span>
         <fa-icon *ngIf="isUserLoged()" class="exit" [icon]="exit" (click)="leave()"></fa-icon>
         <fa-icon *ngIf="user.isAdmin" class="userIcon" [icon]="conf" routerLink="conf"></fa-icon>
+        <fa-icon class="userIcon" [icon]="basket" routerLink="basket" ></fa-icon>
+        <span *ngIf="inBasket != 0" class="count" ngDefaultControl [(ngModel)]="inBasket">{{inBasket}}</span>
     </div>
     <div class="thirdline">
         <span class="box">Новинки</span>
@@ -44,7 +46,12 @@
 <table>
     <tbody>
         <tr class="qwerty">
-            <td ngDefaultControl [(ngModel)]="products" *ngFor="let image of imgdata; let i = index"><img [src]="image"><td>{{products[i].name}}</td>{{products[i].price}}</td>
+            <td class="product" ngDefaultControl [(ngModel)]="products" *ngFor="let image of imgdata; let i = index">
+                <img [src]="image"><td>{{products[i].name}}</td>{{products[i].price}}
+                <button ngDefaultControl [(ngModel)]="user" *ngIf="user.id===0" class="buy" routerLink="form">Купить</button>
+                <button ngDefaultControl [(ngModel)]="user" *ngIf="user.id!=0" class="buy" 
+                    (click)="addToBasket(products[i], i)" [(ngModel)]="battonValue">{{battonValue[i]}}</button>
+            </td>
         </tr>
     </tbody>
 </table>
