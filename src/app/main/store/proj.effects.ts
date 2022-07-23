@@ -19,7 +19,7 @@ export class UserEffects {
           map((response) => {
               console.log(response, "effects");
               this.router.navigate(['']);
-              return userActions.loginSuccess(response)}),
+              return userActions.loginSuccess({...response, id: (response as any)?._id})}),
           catchError((error: any) => {
             console.log("work at effect fail");
             return of(userActions.loginFailure(error))}))

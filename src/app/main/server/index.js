@@ -27,6 +27,9 @@ mongoClient.connect(function(err, client){
         //    console.log(user);
         //}
     });
+
+    collection_prod.deleteOne({"name": 'КРОССОВКИ LITE RACER ADAPT 3.0'});
+    
     /*
     products = [
         {name: "РЮКЗАК ADIDAS 4 ATHLTS", price: 6999, url: "/static/product/2.png"},
@@ -143,12 +146,16 @@ app.post("/api/users/signup", jsonParser, function(req, res){
 });
 app.get("/api/product", function(req, res){
     const collection_prod = req.app.locals.collection_prod;
-    collection_prod.find({}).limit(6).toArray(function(err, product){
+    /*collection_prod.find({}).limit(6).toArray(function(err, product){
+         
+        if(err) return console.log(err);
+        res.send(product)
+    });*/
+    collection_prod.find({}).toArray(function(err, product){
          
         if(err) return console.log(err);
         res.send(product)
     });
-     
 });
 app.post("/api/product/create", jsonParser, function(req, res){
     console.log(101);
@@ -187,7 +194,8 @@ let storage = multer.diskStorage({
       cb(null, PATH);
     },
     filename: (req, file, cb) => {
-      cb(null, file.fieldname + '-' + Date.now() + ".png")
+        console.log(file.originalname)
+      cb(null, file.originalname)
     }
   });
   let upload = multer({
@@ -206,6 +214,7 @@ app.post('/api/product/upload', upload.single('image'), function (req, res) {
       );
     } else {
       console.log('File is available!');
+      console.log(req.file)
       return res.send(
         "success: true"
       )

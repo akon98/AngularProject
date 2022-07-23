@@ -18,6 +18,7 @@
     padding-left: 150px;
     padding-right: 150px;
     text-align: left;
+    min-height: 500px;
 }
 .trashcan {
     cursor: pointer;

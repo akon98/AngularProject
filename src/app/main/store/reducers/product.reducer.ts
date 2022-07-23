@@ -15,7 +15,6 @@ const initialState: ProductState = {
 //on(userActions.loginFailure, (state) => ({user: { id: 0, login: "", password: "1111"}})),
 export const productReducer = createReducer(
     initialState,
-    on(productActions.load, (state) => (state)),
-    on(productActions.loadSuccess, (state, result) => ({...state, product: result})),
+    on(productActions.loadSuccess, (state, result) =>  ({...state, product: result.response})),
     on(productActions.destroy, (state) => (initialState))
 );

@@ -38,7 +38,8 @@ export class BasketComponent {
         console.log(this.basket.length)
         this.summ = 0;
         this.systemService.minusBasket();
-        //this.systemService.changeBattonStatusToInitial(i);
+        console.log(this.basket[i])
+        this.systemService.changeBattonStatusToInitial(this.basket[i]);
         if (this.basket.length === 1 ) {
             console.log("done")
             this.storeBasket$.dispatch(basketActions.clear());

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { catchError, exhaustMap, map } from "rxjs";
+import { catchError, exhaustMap, map, of } from "rxjs";
 import { ServerService } from "../../sevices/server.service";
 import * as productActions from "../actions/product.actions"
 
@@ -16,7 +16,7 @@ export class ProductEffects {
         return this.serverService.getProduct().pipe(
           map((response) => {
               console.log(response, "effects of product loaded");
-              return productActions.loadSuccess(response)}),
+              return productActions.loadSuccess({response}) }),
               )
           })
     )

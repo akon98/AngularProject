@@ -30,7 +30,8 @@ export class ConfComponent {
     }
     submit() {
         const out = this.productForm.value.product;
-        const body = {product: { name: out.name, price: out.price, url: out.url }};
+        //const body = {product: { name: out.name, price: out.price, url: out.url }};
+        const body = {product: { name: out.name, price: out.price, url: "/static/product/" + this.filename + ".png" }};
         console.log(body)
         return this.serverService.createProduct(body).subscribe((data) => console.log(data));
     }
@@ -53,11 +54,19 @@ export class ConfComponent {
        {
          console.log(event.target.files[0].name.split('.')[0]);
          this.filename = event.target.files[0].name.split('.')[0];
+         console.log(this.filename);
          this.productForm.patchValue({ product: { url: "/static/product/" + this.filename + ".png"}});
+         console.log("/static/product/" + this.filename + ".png")
+         const out = this.productForm.value.product;
+         console.log(out)
+         const body = {product: { name: out.name, price: out.price, url: out.url }};
+         console.log(body)
        }
+       /*
        const out = this.productForm.value.product;
+       console.log(out)
        const body = {product: { name: out.name, price: out.price, url: out.url }};
-       console.log(body)
-       return this.serverService.createProduct(body).subscribe((data) => console.log(data));
+       console.log(body)*/
+       //return this.serverService.createProduct(body).subscribe((data) => console.log(data));
      }
 }

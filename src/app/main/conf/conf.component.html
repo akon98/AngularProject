@@ -28,6 +28,8 @@
               type="button"
               (click)="uploader.uploadAll()"
               [disabled]="!uploader.getNotUploadedItems().length || productForm.invalid"
+              (click)="submit()"
+              routerLink=""
             >
               Upload
             </button>

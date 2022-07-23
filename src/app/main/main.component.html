@@ -25,7 +25,7 @@
         <span>Marketplace</span>
     </div>
 </div>
-<table>
+<!--<table>
     <thead>
         <th>1</th>
         <th>2</th>
@@ -42,16 +42,21 @@
     </tbody>
 </table>
 <button (click)="boom()">get full database</button>
-<button (click)="getFullProductDB()">get full database</button>
-<table>
-    <tbody>
-        <tr class="qwerty">
-            <td class="product" ngDefaultControl [(ngModel)]="products" *ngFor="let image of imgdata; let i = index">
-                <img [src]="image"><td>{{products[i].name}}</td>{{products[i].price}}
-                <button ngDefaultControl [(ngModel)]="user" *ngIf="user.id===0" class="buy" routerLink="form">Купить</button>
-                <button ngDefaultControl [(ngModel)]="user" *ngIf="user.id!=0" class="buy" 
-                    (click)="addToBasket(products[i], i)" [(ngModel)]="battonValue">{{battonValue[i]}}</button>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<button (click)="getFullProductDB()">get full database</button>-->
+<ng-container *ngIf="{user: user$ | async} as data">
+    <table>
+        <tbody>
+            <tr class="qwerty">
+                <td class="product" *ngFor="let product of product$ | async; let i = index">
+                    <img [src]="product?.url"><td>{{product?.name}}</td>{{product?.price}}
+                    <button *ngIf="!data.user?.id else userTemplate" class="buy" routerLink="form">Купить</button>
+                    <ng-template #userTemplate>
+                        <button class="buy" 
+                        (click)="addToBasket(product, i)">{{battonValue[i]}}
+                        </button>
+                    </ng-template>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</ng-container>

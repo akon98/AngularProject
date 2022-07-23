@@ -15,10 +15,10 @@ import * as userActions from "../store/proj.actions"
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormComponent {
-    @Input() users: User[] = [];
-    @Input() isEdit: boolean = false;
+    /*@Input()*/ users: User[] = [];
+    /*@Input() isEdit: boolean = false;
     @Input() index: number | null = null;
-    @Output() changed = new EventEmitter<boolean>();
+    @Output() changed = new EventEmitter<boolean>();*/
     isLog: boolean = true;
     // editing: string;
 
